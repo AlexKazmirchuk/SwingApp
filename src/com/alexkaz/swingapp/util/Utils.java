@@ -9,7 +9,8 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Random;
+import java.util.*;
+import java.util.List;
 
 import static com.alexkaz.swingapp.util.Config.RESOURCE_DIRECTORY;
 
@@ -43,6 +44,33 @@ public class Utils {
         } catch (IOException | URISyntaxException e) {
             return null;
         }
+    }
+
+    public static List<Character> getRandomCharacters(){
+        List<Character> characters = new ArrayList<>();
+
+        Character character = new Character("John");
+        character.setActive(true);
+        character.move(getRandomInt(30, 500), getRandomInt(30, 400));
+        characters.add(character);
+
+        character = new Character("Mike");
+        character.move(getRandomInt(30, 500), getRandomInt(30, 400));
+        characters.add(character);
+
+        character = new Character("Hank");
+        character.move(getRandomInt(30, 500), getRandomInt(30, 400));
+        characters.add(character);
+
+        character = new Character("Kurt");
+        character.move(getRandomInt(30, 500), getRandomInt(30, 400));
+        characters.add(character);
+
+        return characters;
+    }
+
+    private static int getRandomInt(int low, int high){
+        return rand.nextInt(high-low) + low;
     }
 
 }

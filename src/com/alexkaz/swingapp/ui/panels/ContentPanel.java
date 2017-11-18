@@ -16,14 +16,14 @@ import static com.alexkaz.swingapp.util.Utils.isInBounds;
 
 public class ContentPanel extends JPanel implements Moveable {
 
-    private Character character;
+    private java.util.List<Character> charList;
     private MouseBtnStateListener mBtnListener;
 
     private Image backgroundImage;
 
     public ContentPanel() {
         setBackground(Color.GREEN);
-        character = new Character();
+        charList = Utils.getRandomCharacters();
         backgroundImage = Utils.getImageByName("content_panel_bg.png");
         setMouseClickListener();
         setMouseDragListener();
@@ -34,11 +34,24 @@ public class ContentPanel extends JPanel implements Moveable {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON3){
-                    if (isInBounds(e.getX(), e.getY(), character)){
-                        character.setRandomColor();
-                        repaint();
+                    charList.forEach(character -> character.setActive(false));
+                    for (Character character : charList){
+                        if (isInBounds(e.getX(), e.getY(), character)){
+                            character.setActive(true);
+                            character.setRandomColor();
+                            break;
+                        }
+                    }
+                } else if (e.getButton() == MouseEvent.BUTTON1){
+                    charList.forEach(character -> character.setActive(false));
+                    for (Character character : charList){
+                        if (isInBounds(e.getX(), e.getY(), character)){
+                            character.setActive(true);
+                            break;
+                        }
                     }
                 }
+                repaint();
             }
 
             @Override
@@ -64,10 +77,15 @@ public class ContentPanel extends JPanel implements Moveable {
             @Override
             public void mouseDragged(MouseEvent e) {
                 if (e.getModifiers() == MouseEvent.BUTTON1_MASK){
-                    if (isInBounds(e.getX(), e.getY(), character)){
-                        character.move(e.getX(), e.getY());
-                        repaint();
+                    charList.forEach(character -> character.setActive(false));
+                    for (Character character : charList){
+                        if (isInBounds(e.getX(), e.getY(), character)){
+                            character.setActive(true);
+                            character.move(e.getX(), e.getY());
+                            break;
+                        }
                     }
+                    repaint();
                 }
             }
         });
@@ -75,17 +93,19 @@ public class ContentPanel extends JPanel implements Moveable {
 
     @Override
     public void move(Direction direction) {
-        character.move(direction);
-        repaint();
+        for (Character character : charList){
+            if (character.isActive()){
+                character.move(direction);
+                repaint();
+            }
+        }
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (backgroundImage != null){
-            g.drawImage(backgroundImage,0,0, null);
-        }
-        character.draw((Graphics2D) g);
+        if (backgroundImage != null)g.drawImage(backgroundImage,0,0, null);
+        charList.forEach(character -> character.draw((Graphics2D) g));
     }
 
     public void setMouseBtnStateListener(MouseBtnStateListener mBtnListener) {

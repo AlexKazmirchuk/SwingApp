@@ -15,7 +15,7 @@ public class Config {
     // MyFrame
     public static final int WINDOW_WIDTH = 687;
     public static final int WINDOW_HEIGHT = 660;
-    public static final String WINDOW_TITLE = "Simulator of office plankton";
+    public static final String WINDOW_TITLE = "Office Plankton Simulator";
 
     // ControlPanel
     public static final int CONTROL_PANEL_HEIGHT = 141;

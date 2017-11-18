@@ -12,6 +12,8 @@ import static com.alexkaz.swingapp.util.Config.SHEAR;
 
 public class Character {
 
+    private boolean isActive;
+    private String name = "Mark";
     private int width = CHARACTER_WIDTH;
     private int height = CHARACTER_HEIGHT;
     private int x = DEFAULT_CHARACTER_POSITION_X;
@@ -21,6 +23,15 @@ public class Character {
     private Direction charDirection = Direction.DOWN;
 
     public Character() {
+        init();
+    }
+
+    public Character(String name) {
+        this.name = name;
+        init();
+    }
+
+    private void init(){
         sprites = new HashMap<>();
 
         for(Direction direction : Direction.values()){
@@ -44,8 +55,12 @@ public class Character {
     public void draw(Graphics2D g){
         g.setColor(color);
         g.fillRect(x,y-18, width, 5);
-        g.setColor(Color.WHITE);
-        g.drawString("Mark", x+20, y);
+        if (isActive){
+            g.setColor(Color.GREEN);
+        } else {
+            g.setColor(Color.RED);
+        }
+        g.drawString(name, x+20, y);
         g.drawImage(sprites.get(charDirection.name().toLowerCase()),x,y,width,height, null);
     }
 
@@ -67,5 +82,13 @@ public class Character {
 
     public int getY() {
         return y;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }
